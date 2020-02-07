@@ -17,12 +17,17 @@ jobs:
       uses: actions/checkout@v1
     - name: Swift Version
       run: swift --version
-    - name: Build
-      run: swift build -v
-    - name: Test
-      run: swift test -v
+    - name: Build (Release)
+      run: swift build -v -c release
+    - name: Build (Debug)
+      run: swift build -v -c debug
+    - name: Test (Release)
+      run: swift test -v -c release -Xswiftc -enable-testing
+    - name: Test (Debug)
+      run: swift test -v -c debug
     - name: Slack Notification
       uses: elegantchaos/slatify@master
+      if: always()
       with:
         type: ${{ job.status }}
         job_name: 'Linux Tests (Swift ${{ matrix.swift }})'
@@ -32,27 +37,28 @@ jobs:
   macos:
     name: Mac
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        config: [debug, release]
-        include:
-        - config: release
-          args:  -Xswiftc -enable-testing
     steps:
     - name: Checkout
       uses: actions/checkout@v1
     - name: Swift Version
       run: swift --version
-    - name: Build
-      run: swift build -v -c ${{ matrix.config }}
-    - name: Test (macOS)
-      run: swift test -v -c ${{ matrix.config }} ${{ matrix.args }}
-    - name: Test (iOS)
-      run: xcodebuild clean test -workspace . -scheme CollectionExtensions -destination "name=iPad Pro (11-inch)"
+    - name: Build (masOS, Release)
+      run: swift build -v -c release
+    - name: Build (macOS, Debug)
+      run: swift build -v -c debug
+    - name: Test (macOS, Release)
+      run: swift test -v -c release -Xswiftc -enable-testing
+    - name: Test (macOS, Debug)
+      run: swift test -v -c debug
+    - name: Test (iOS, Release)
+      run: xcodebuild clean test -workspace . -scheme CollectionExtensions -destination "name=iPad Pro (11-inch)" -configuration Release
+    - name: Test (iOS, Debug)
+      run: xcodebuild clean test -workspace . -scheme CollectionExtensions -destination "name=iPad Pro (11-inch)" -configuration Debug
     - name: Slack Notification
       uses: elegantchaos/slatify@master
+      if: always()
       with:
           type: ${{ job.status }}
-          job_name: 'Mac Tests (${{ matrix.config }})'
+          job_name: 'macOS/iOS Tests (${{ matrix.config }})'
           mention_if: 'failure'
           url: ${{ secrets.SLACK_WEBHOOK }}

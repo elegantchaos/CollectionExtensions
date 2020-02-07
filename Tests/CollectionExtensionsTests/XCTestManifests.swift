@@ -6,7 +6,10 @@ extension CollectionExtensionsTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__CollectionExtensionsTests = [
-        ("testMerge", testMerge),
+        ("testMergeNewOnly", testMergeNewOnly),
+        ("testMergeNewOnlySequence", testMergeNewOnlySequence),
+        ("testMergeReplacingDuplicates", testMergeReplacingDuplicates),
+        ("testMergeReplacingDuplicatesSequence", testMergeReplacingDuplicatesSequence),
     ]
 }
 

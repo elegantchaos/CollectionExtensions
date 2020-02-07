@@ -48,7 +48,7 @@ jobs:
     - name: Test (macOS)
       run: swift test -v -c ${{ matrix.config }} ${{ matrix.args }}
     - name: Test (iOS)
-      run: xcodebuild clean test -workspace . -scheme Logger-Package -destination "name=iPad Pro (11-inch)"
+      run: xcodebuild clean test -workspace . -scheme CollectionExtensions-Package -destination "name=iPad Pro (11-inch)"
     - name: Slack Notification
       uses: elegantchaos/slatify@master
       with:

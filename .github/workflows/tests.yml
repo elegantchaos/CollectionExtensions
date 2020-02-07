@@ -51,7 +51,7 @@ jobs:
     - name: Test (macOS, Debug)
       run: swift test -v -c debug
     - name: Test (iOS, Release)
-      run: xcodebuild clean test -workspace . -scheme CollectionExtensions -destination "name=iPad Pro (11-inch)" -configuration Release
+      run: xcodebuild clean test -workspace . -scheme CollectionExtensions -destination "name=iPad Pro (11-inch)" -configuration Release ENABLE_TESTABILITY=YES
     - name: Test (iOS, Debug)
       run: xcodebuild clean test -workspace . -scheme CollectionExtensions -destination "name=iPad Pro (11-inch)" -configuration Debug
     - name: Slack Notification

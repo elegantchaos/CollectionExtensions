@@ -1,7 +1,12 @@
+// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+//  Created by Sam Deane on 09/03/20.
+//  All code (c) 2020 - present day, Elegant Chaos Limited.
+// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
 import XCTest
 @testable import CollectionExtensions
 
-final class CollectionExtensionsTests: XCTestCase {
+final class CollectionMerginTests: XCTestCase {
     let original = ["foo": "original", "bar" : "original"]
     let update = ["bar": "updated", "baz": "added"]
     let updateSequence = [("bar", "updated"), ("baz", "added")]

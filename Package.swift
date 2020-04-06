@@ -6,7 +6,8 @@ let package = Package(
     name: "CollectionExtensions",
     platforms: [
         .macOS(.v10_12),
-        .iOS(.v10)
+        .iOS(.v10),
+        .tvOS(.v10)
     ],
     products: [
         .library(

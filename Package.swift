@@ -5,7 +5,8 @@ import PackageDescription
 let package = Package(
     name: "CollectionExtensions",
     platforms: [
-        .macOS(.v10_12)
+        .macOS(.v10_12),
+        .iOS(.v10)
     ],
     products: [
         .library(

@@ -63,4 +63,27 @@ public class Coercion {
         return nil
     }
 
+    static var dateFormatter = ISO8601DateFormatter()
+    
+    class func asDate(_ value: Any?) -> Date? {
+        guard let value = value else { return nil }
+
+        if let date = value as? Date {
+            return date
+        }
+        
+        if let double = value as? Double {
+            return Date(timeIntervalSinceReferenceDate: double)
+        }
+
+        if let int = value as? Int {
+            return Date(timeIntervalSinceReferenceDate: TimeInterval(int))
+        }
+
+        if let string = value as? String {
+            return dateFormatter.date(from: string)
+        }
+        
+        return nil
+    }
 }

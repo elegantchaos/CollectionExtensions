@@ -17,5 +17,9 @@ public extension Dictionary {
     subscript(doubleWithKey key: Key) -> Double? {
         return Coercion.asDouble(self[key])
     }
+    
+    subscript(dateWithKey key: Key) -> Date? {
+        return Coercion.asDate(self[key])
+    }
 
 }

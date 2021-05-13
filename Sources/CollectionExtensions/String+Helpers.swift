@@ -7,17 +7,28 @@ import Foundation
 
 /// Missing functions
 
-extension String {
-    func ends(with other: String) -> Bool {
+public extension StringProtocol {
+    func ends<S>(with other: S) -> Bool where S: StringProtocol {
         guard other.count > 0 else { return true }
         guard let start = range(of: other, options: .backwards, range: nil, locale: nil) else { return false }
         return start.upperBound == endIndex
     }
+    
+    func removing<S>(fromEnd other: S) -> SubSequence where S: StringProtocol {
+        guard other.count > 0, let start = range(of: other, options: .backwards, range: nil, locale: nil), start.upperBound == endIndex else { return self[..<endIndex] }
+        return self[..<start.lowerBound]
+    }
+
+    func removing<S>(ifEndsWith other: S) -> SubSequence? where S: StringProtocol {
+        guard other.count > 0, let start = range(of: other, options: .backwards, range: nil, locale: nil), start.upperBound == endIndex else { return nil }
+        return self[..<start.lowerBound]
+    }
+
 }
 
 /// Explicit support for integer slicing of strings.
 
-extension StringProtocol {
+public extension StringProtocol {
     subscript(_ partial: PartialRangeUpTo<Int>) -> SubSequence {
         get {
             let upper = index(startIndex, offsetBy: partial.upperBound)
@@ -40,4 +51,11 @@ extension StringProtocol {
         }
     }
 
+}
+
+
+public extension Array where Element == String {
+    mutating func append(_ other: Element.SubSequence) {
+        append(String(other))
+    }
 }

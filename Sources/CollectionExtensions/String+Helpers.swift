@@ -52,10 +52,3 @@ public extension StringProtocol {
     }
 
 }
-
-
-public extension Array where Element == String {
-    mutating func append(_ other: Element.SubSequence) {
-        append(String(other))
-    }
-}

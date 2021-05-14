@@ -48,3 +48,19 @@ public extension Array {
         }
     }
 }
+
+public extension Array where Element: Equatable {
+    /// Add or remove an element from an array, based on
+    /// a boolean value.
+    /// - Parameters:
+    ///   - element: element to add or remove
+    ///   - value: If true, the element should be added if missing. If false, the element should be removed if present.
+    mutating func contains(_ element: Element, changeTo value: Bool) {
+        if value && !contains(element) {
+            append(element)
+        } else if !value, let index = firstIndex(of: element) {
+            remove(at: index)
+        }
+    }
+
+}

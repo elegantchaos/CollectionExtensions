@@ -65,5 +65,13 @@ final class ArrayTests: XCTestCase {
         XCTAssertTrue(checkRemove([], remove: [1,2], expected: []))
     }
 
+    func testContainsSetTo() {
+        var array = [1,2,3]
+        XCTAssertTrue(array.contains(2))
+        array.contains(2, changeTo: false)
+        XCTAssertFalse(array.contains(2))
+        array.contains(2, changeTo: true)
+        XCTAssertTrue(array.contains(2))
+    }
 }
 

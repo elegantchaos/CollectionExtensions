@@ -55,7 +55,7 @@ public extension Array where Element: Equatable {
     /// - Parameters:
     ///   - element: element to add or remove
     ///   - value: If true, the element should be added if missing. If false, the element should be removed if present.
-    mutating func contains(_ element: Element, changeTo value: Bool) {
+    mutating func changeContains(_ element: Element, to value: Bool) {
         if value && !contains(element) {
             append(element)
         } else if !value, let index = firstIndex(of: element) {
@@ -64,3 +64,4 @@ public extension Array where Element: Equatable {
     }
 
 }
+

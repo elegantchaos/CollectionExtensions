@@ -68,9 +68,9 @@ final class ArrayTests: XCTestCase {
     func testContainsSetTo() {
         var array = [1,2,3]
         XCTAssertTrue(array.contains(2))
-        array.contains(2, changeTo: false)
+        array.changeContains(2, to: false)
         XCTAssertFalse(array.contains(2))
-        array.contains(2, changeTo: true)
+        array.changeContains(2, to: true)
         XCTAssertTrue(array.contains(2))
     }
 }

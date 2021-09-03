@@ -530,11 +530,11 @@ jobs:
             SCHEME="CollectionExtensions-iOS"
             fi
             echo "set -o pipefail; export PATH='swift-latest:$PATH'; WORKSPACE='$WORKSPACE'; SCHEME='$SCHEME'" > setup.sh
-        - name: Test (iOS Release)
+        - name: Build (iOS Release)
           run: |
             source "setup.sh"
-            echo "Testing workspace $WORKSPACE scheme $SCHEME."
-            xcodebuild test -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=iPhone 11" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-iOS-test-release.log | xcpretty
+            echo "Building workspace $WORKSPACE scheme $SCHEME."
+            xcodebuild clean build -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=iPhone 11" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-iOS-build-release.log | xcpretty
         - name: Detect Workspace & Scheme (tvOS)
           run: |
             WORKSPACE="CollectionExtensions.xcworkspace"
@@ -552,11 +552,11 @@ jobs:
             SCHEME="CollectionExtensions-tvOS"
             fi
             echo "set -o pipefail; export PATH='swift-latest:$PATH'; WORKSPACE='$WORKSPACE'; SCHEME='$SCHEME'" > setup.sh
-        - name: Test (tvOS Release)
+        - name: Build (tvOS Release)
           run: |
             source "setup.sh"
-            echo "Testing workspace $WORKSPACE scheme $SCHEME."
-            xcodebuild test -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=Apple TV" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-tvOS-test-release.log | xcpretty
+            echo "Building workspace $WORKSPACE scheme $SCHEME."
+            xcodebuild clean build -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=Apple TV" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-tvOS-build-release.log | xcpretty
         - name: Detect Workspace & Scheme (watchOS)
           run: |
             WORKSPACE="CollectionExtensions.xcworkspace"

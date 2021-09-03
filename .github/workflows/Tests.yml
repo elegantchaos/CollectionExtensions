@@ -213,7 +213,7 @@ jobs:
 
 
     xcode-swift-53:
-        name: Xcode (Swift 5.3)
+        name: iOS/tvOS/watchOS (Swift 5.3)
         runs-on: macos-latest
         steps:
         - name: Checkout
@@ -303,7 +303,7 @@ jobs:
 
 
     xcode-swift-54:
-        name: Xcode (Swift 5.4)
+        name: iOS/tvOS/watchOS (Swift 5.4)
         runs-on: macos-11
         steps:
         - name: Checkout
@@ -393,7 +393,7 @@ jobs:
 
 
     xcode-swift-55:
-        name: Xcode (Swift 5.5)
+        name: iOS/tvOS/watchOS (Swift 5.5)
         runs-on: macos-11
         steps:
         - name: Checkout
@@ -483,7 +483,7 @@ jobs:
 
 
     xcode-swift-nightly:
-        name: Xcode (Swift Development Nightly)
+        name: iOS/tvOS/watchOS (Swift Development Nightly)
         env:
             TOOLCHAINS: swift
         runs-on: macos-11

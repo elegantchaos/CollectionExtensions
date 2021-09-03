@@ -56,7 +56,7 @@ jobs:
             wget --quiet https://swift.org/builds/$branch/xcode/$downloadYML/$downloadYML-osx.pkg
             sudo installer -pkg $downloadYML-osx.pkg -target /
             ln -s "/Library/Developer/Toolchains/$downloadYML.xctoolchain/usr/bin" swift-latest
-            sudo xcode-select -s /Applications/Xcode_13_beta.app
+            sudo xcode-select -s /Applications/Xcode_13.0.app
             swift --version
         - name: Xcode Version
           run: |
@@ -98,7 +98,7 @@ jobs:
     linux-swift-nightly:
         name: Linux (Swift Development Nightly)
         runs-on: ubuntu-18.04
-        container: swift:nightly-bionic
+        container: swiftlang/swift:nightly
         steps:
         - name: Checkout
           uses: actions/checkout@v1
@@ -227,7 +227,7 @@ jobs:
             wget --quiet https://swift.org/builds/$branch/xcode/$downloadYML/$downloadYML-osx.pkg
             sudo installer -pkg $downloadYML-osx.pkg -target /
             ln -s "/Library/Developer/Toolchains/$downloadYML.xctoolchain/usr/bin" swift-latest
-            sudo xcode-select -s /Applications/Xcode_13_beta.app
+            sudo xcode-select -s /Applications/Xcode_13.0.app
             swift --version
         - name: Xcode Version
           run: |

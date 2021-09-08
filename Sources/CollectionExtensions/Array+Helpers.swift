@@ -63,5 +63,15 @@ public extension Array where Element: Equatable {
         }
     }
 
+    
+    /// Flip the containment of an element.
+    /// If it is currently present, remove it, otherwise append it.
+    mutating func toggleContains(_ element: Element) {
+        if let index = firstIndex(of: element) {
+            remove(at: index)
+        } else {
+            append(element)
+        }
+    }
 }
 

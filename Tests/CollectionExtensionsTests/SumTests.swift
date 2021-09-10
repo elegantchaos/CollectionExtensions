@@ -12,8 +12,8 @@ final class SumTests: XCTestCase {
         XCTAssertEqual([1,2,3].sum, 6)
         XCTAssertEqual(Set([1,2,3]).sum, 6)
 
-        XCTAssertEqual([1.0,2.0,3.0].sum, 6.0)
-        XCTAssertEqual(Set([1.0,2.0,3.0]).sum, 6.0)
+        XCTAssertEqual([1.0, 2.0, 3.0].sum, 6.0)
+        XCTAssertEqual(Set([1.0, 2.0, 3.0]).sum, 6.0)
 
     }
     

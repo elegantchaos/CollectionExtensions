@@ -5,21 +5,21 @@
 
 import Foundation
 
-extension Sequence where Element: BinaryInteger {
+public extension Sequence where Element: BinaryInteger {
     /// Returns the sum of the sequence.
     var sum: Element {
         reduce(0, { $0 + $1 })
     }
 }
 
-extension Sequence where Element: BinaryFloatingPoint {
+public extension Sequence where Element: BinaryFloatingPoint {
     /// Returns the sum of the sequence.
     var sum: Element {
         reduce(0, { $0 + $1 })
     }
 }
 
-extension Sequence {
+public extension Sequence {
     func sum<T>(of key: KeyPath<Element, T>) -> T where T: BinaryInteger {
         reduce(T(0), { $0 + $1[keyPath: key] })
     }

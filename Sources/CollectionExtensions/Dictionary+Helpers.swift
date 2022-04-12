@@ -104,7 +104,7 @@ public extension Dictionary {
         /// Set the entry for a key, unless we are passed an empty collection, in
         /// which case we remove any existing value instead.
         set(newValue) {
-            if newValue?.isEmpty ?? false {
+            if newValue?.isEmpty ?? true {
                 removeValue(forKey: key)
             } else {
                 self[key] = newValue as? Value

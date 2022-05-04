@@ -48,8 +48,8 @@ jobs:
         - name: Install Toolchain
           run: |
             wget --quiet https://download.swift.org/swift-5.6.1-release/xcode/swift-5.6.1-RELEASE/swift-5.6.1-RELEASE-osx.pkg
-            sudo installer -pkg $downloadYML-osx.pkg -target /
-            ln -s "/Library/Developer/Toolchains/$downloadYML.xctoolchain/usr/bin" swift-latest
+            sudo installer -pkg swift-5.6.1-RELEASE-osx.pkg -target /
+            ln -s "/Library/Developer/Toolchains/swift-5.6.1-RELEASE.xctoolchain/usr/bin" swift-latest
             ls -d /Applications/Xcode*
             sudo xcode-select -s /Applications/Xcode_13.2.1.app
             swift --version
@@ -276,8 +276,8 @@ jobs:
         - name: Install Toolchain
           run: |
             wget --quiet https://download.swift.org/swift-5.6.1-release/xcode/swift-5.6.1-RELEASE/swift-5.6.1-RELEASE-osx.pkg
-            sudo installer -pkg $downloadYML-osx.pkg -target /
-            ln -s "/Library/Developer/Toolchains/$downloadYML.xctoolchain/usr/bin" swift-latest
+            sudo installer -pkg swift-5.6.1-RELEASE-osx.pkg -target /
+            ln -s "/Library/Developer/Toolchains/swift-5.6.1-RELEASE.xctoolchain/usr/bin" swift-latest
             ls -d /Applications/Xcode*
             sudo xcode-select -s /Applications/Xcode_13.2.1.app
             swift --version

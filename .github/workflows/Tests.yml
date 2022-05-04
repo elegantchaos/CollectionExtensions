@@ -47,7 +47,7 @@ jobs:
           run: mkdir logs
         - name: Install Toolchain
           run: |
-                        branch="development"
+            branch="development"
             wget --quiet https://download.swift.org/$branch/xcode/latest-build.yml
             grep "download:" < latest-build.yml > filtered.yml
             sed -e 's/-osx.pkg//g' filtered.yml > stripped.yml
@@ -220,7 +220,7 @@ jobs:
           run: mkdir logs
         - name: Install Toolchain
           run: |
-                        branch="development"
+            branch="development"
             wget --quiet https://download.swift.org/$branch/xcode/latest-build.yml
             grep "download:" < latest-build.yml > filtered.yml
             sed -e 's/-osx.pkg//g' filtered.yml > stripped.yml

@@ -35,58 +35,6 @@ jobs:
             path: logs
 
 
-    macOS-swift-54:
-        name: macOS (Swift 5.4)
-        runs-on: macos-11
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-        - name: Make Logs Directory
-          run: mkdir logs
-        - name: Xcode Version
-          run: |
-            ls -d /Applications/Xcode*
-            sudo xcode-select -s /Applications/Xcode_12.5.1.app
-            xcodebuild -version
-            swift --version
-        - name: Swift Version
-          run: swift --version
-        - name: Test (Release)
-          run: swift test --configuration release -Xswiftc -enable-testing --enable-test-discovery
-        - name: Upload Logs
-          uses: actions/upload-artifact@v1
-          if: always()
-          with:
-            name: logs
-            path: logs
-
-
-    macOS-swift-55:
-        name: macOS (Swift 5.5)
-        runs-on: macos-11
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-        - name: Make Logs Directory
-          run: mkdir logs
-        - name: Xcode Version
-          run: |
-            ls -d /Applications/Xcode*
-            sudo xcode-select -s /Applications/Xcode_13.0.app
-            xcodebuild -version
-            swift --version
-        - name: Swift Version
-          run: swift --version
-        - name: Test (Release)
-          run: swift test --configuration release -Xswiftc -enable-testing --enable-test-discovery
-        - name: Upload Logs
-          uses: actions/upload-artifact@v1
-          if: always()
-          with:
-            name: logs
-            path: logs
-
-
     macOS-swift-56:
         name: macOS (Swift 5.6)
         env:
@@ -99,7 +47,7 @@ jobs:
           run: mkdir logs
         - name: Install Toolchain
           run: |
-            wget --quiet https://swift.org/builds/swift-5.6.1-release/xcode/swift-5.6.1-RELEASE/swift-5.6.1-RELEASE-osx.pkg
+            wget --quiet https://download.swift.org/swift-5.6.1-release/xcode/swift-5.6.1-RELEASE/swift-5.6.1-RELEASE-osx.pkg
             sudo installer -pkg $downloadYML-osx.pkg -target /
             ln -s "/Library/Developer/Toolchains/$downloadYML.xctoolchain/usr/bin" swift-latest
             ls -d /Applications/Xcode*
@@ -183,52 +131,10 @@ jobs:
             path: logs
 
 
-    linux-swift-54:
-        name: Linux (Swift 5.4)
-        runs-on: ubuntu-18.04
-        container: swift:5.4.2-bionic
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-        - name: Make Logs Directory
-          run: mkdir logs
-        - name: Swift Version
-          run: swift --version
-        - name: Test (Release)
-          run: swift test --configuration release -Xswiftc -enable-testing --enable-test-discovery
-        - name: Upload Logs
-          uses: actions/upload-artifact@v1
-          if: always()
-          with:
-            name: logs
-            path: logs
-
-
-    linux-swift-55:
-        name: Linux (Swift 5.5)
-        runs-on: ubuntu-18.04
-        container: swift:5.5.3-bionic
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-        - name: Make Logs Directory
-          run: mkdir logs
-        - name: Swift Version
-          run: swift --version
-        - name: Test (Release)
-          run: swift test --configuration release -Xswiftc -enable-testing --enable-test-discovery
-        - name: Upload Logs
-          uses: actions/upload-artifact@v1
-          if: always()
-          with:
-            name: logs
-            path: logs
-
-
     linux-swift-56:
         name: Linux (Swift 5.6)
         runs-on: ubuntu-18.04
-        container: swift:5.6.1:bionic
+        container: swift:5.6.1-bionic
         steps:
         - name: Checkout
           uses: actions/checkout@v1
@@ -357,186 +263,6 @@ jobs:
             path: logs
 
 
-    xcode-swift-54:
-        name: iOS/tvOS/watchOS (Swift 5.4, Xcode 12.5.1)
-        runs-on: macos-11
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-        - name: Make Logs Directory
-          run: mkdir logs
-        - name: Xcode Version
-          run: |
-            ls -d /Applications/Xcode*
-            sudo xcode-select -s /Applications/Xcode_12.5.1.app
-            xcodebuild -version
-            swift --version
-        - name: XC Pretty
-          run: sudo gem install xcpretty-travis-formatter
-        - name: Detect Workspace & Scheme (iOS)
-          run: |
-            WORKSPACE="CollectionExtensions.xcworkspace"
-            if [[ ! -e "$WORKSPACE" ]]
-            then
-            WORKSPACE="."
-            GOTPACKAGE=$(xcodebuild -workspace . -list | (grep CollectionExtensions-Package || true))
-            if [[ $GOTPACKAGE != "" ]]
-            then
-            SCHEME="CollectionExtensions-Package"
-            else
-            SCHEME="CollectionExtensions"
-            fi
-            else
-            SCHEME="CollectionExtensions-iOS"
-            fi
-            echo "set -o pipefail; export PATH='swift-latest:$PATH'; WORKSPACE='$WORKSPACE'; SCHEME='$SCHEME'" > setup.sh
-        - name: Test (iOS Release)
-          run: |
-            source "setup.sh"
-            echo "Testing workspace $WORKSPACE scheme $SCHEME."
-            xcodebuild test -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=iPhone 11" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-iOS-test-release.log | xcpretty
-        - name: Detect Workspace & Scheme (tvOS)
-          run: |
-            WORKSPACE="CollectionExtensions.xcworkspace"
-            if [[ ! -e "$WORKSPACE" ]]
-            then
-            WORKSPACE="."
-            GOTPACKAGE=$(xcodebuild -workspace . -list | (grep CollectionExtensions-Package || true))
-            if [[ $GOTPACKAGE != "" ]]
-            then
-            SCHEME="CollectionExtensions-Package"
-            else
-            SCHEME="CollectionExtensions"
-            fi
-            else
-            SCHEME="CollectionExtensions-tvOS"
-            fi
-            echo "set -o pipefail; export PATH='swift-latest:$PATH'; WORKSPACE='$WORKSPACE'; SCHEME='$SCHEME'" > setup.sh
-        - name: Test (tvOS Release)
-          run: |
-            source "setup.sh"
-            echo "Testing workspace $WORKSPACE scheme $SCHEME."
-            xcodebuild test -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=Apple TV" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-tvOS-test-release.log | xcpretty
-        - name: Detect Workspace & Scheme (watchOS)
-          run: |
-            WORKSPACE="CollectionExtensions.xcworkspace"
-            if [[ ! -e "$WORKSPACE" ]]
-            then
-            WORKSPACE="."
-            GOTPACKAGE=$(xcodebuild -workspace . -list | (grep CollectionExtensions-Package || true))
-            if [[ $GOTPACKAGE != "" ]]
-            then
-            SCHEME="CollectionExtensions-Package"
-            else
-            SCHEME="CollectionExtensions"
-            fi
-            else
-            SCHEME="CollectionExtensions-watchOS"
-            fi
-            echo "set -o pipefail; export PATH='swift-latest:$PATH'; WORKSPACE='$WORKSPACE'; SCHEME='$SCHEME'" > setup.sh
-        - name: Build (watchOS Release)
-          run: |
-            source "setup.sh"
-            echo "Building workspace $WORKSPACE scheme $SCHEME."
-            xcodebuild clean build -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=Apple Watch Series 5 - 44mm" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-watchOS-build-release.log | xcpretty
-        - name: Upload Logs
-          uses: actions/upload-artifact@v1
-          if: always()
-          with:
-            name: logs
-            path: logs
-
-
-    xcode-swift-55:
-        name: iOS/tvOS/watchOS (Swift 5.5, Xcode 13.0)
-        runs-on: macos-11
-        steps:
-        - name: Checkout
-          uses: actions/checkout@v1
-        - name: Make Logs Directory
-          run: mkdir logs
-        - name: Xcode Version
-          run: |
-            ls -d /Applications/Xcode*
-            sudo xcode-select -s /Applications/Xcode_13.0.app
-            xcodebuild -version
-            swift --version
-        - name: XC Pretty
-          run: sudo gem install xcpretty-travis-formatter
-        - name: Detect Workspace & Scheme (iOS)
-          run: |
-            WORKSPACE="CollectionExtensions.xcworkspace"
-            if [[ ! -e "$WORKSPACE" ]]
-            then
-            WORKSPACE="."
-            GOTPACKAGE=$(xcodebuild -workspace . -list | (grep CollectionExtensions-Package || true))
-            if [[ $GOTPACKAGE != "" ]]
-            then
-            SCHEME="CollectionExtensions-Package"
-            else
-            SCHEME="CollectionExtensions"
-            fi
-            else
-            SCHEME="CollectionExtensions-iOS"
-            fi
-            echo "set -o pipefail; export PATH='swift-latest:$PATH'; WORKSPACE='$WORKSPACE'; SCHEME='$SCHEME'" > setup.sh
-        - name: Test (iOS Release)
-          run: |
-            source "setup.sh"
-            echo "Testing workspace $WORKSPACE scheme $SCHEME."
-            xcodebuild test -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=iPhone 11" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-iOS-test-release.log | xcpretty
-        - name: Detect Workspace & Scheme (tvOS)
-          run: |
-            WORKSPACE="CollectionExtensions.xcworkspace"
-            if [[ ! -e "$WORKSPACE" ]]
-            then
-            WORKSPACE="."
-            GOTPACKAGE=$(xcodebuild -workspace . -list | (grep CollectionExtensions-Package || true))
-            if [[ $GOTPACKAGE != "" ]]
-            then
-            SCHEME="CollectionExtensions-Package"
-            else
-            SCHEME="CollectionExtensions"
-            fi
-            else
-            SCHEME="CollectionExtensions-tvOS"
-            fi
-            echo "set -o pipefail; export PATH='swift-latest:$PATH'; WORKSPACE='$WORKSPACE'; SCHEME='$SCHEME'" > setup.sh
-        - name: Test (tvOS Release)
-          run: |
-            source "setup.sh"
-            echo "Testing workspace $WORKSPACE scheme $SCHEME."
-            xcodebuild test -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=Apple TV" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-tvOS-test-release.log | xcpretty
-        - name: Detect Workspace & Scheme (watchOS)
-          run: |
-            WORKSPACE="CollectionExtensions.xcworkspace"
-            if [[ ! -e "$WORKSPACE" ]]
-            then
-            WORKSPACE="."
-            GOTPACKAGE=$(xcodebuild -workspace . -list | (grep CollectionExtensions-Package || true))
-            if [[ $GOTPACKAGE != "" ]]
-            then
-            SCHEME="CollectionExtensions-Package"
-            else
-            SCHEME="CollectionExtensions"
-            fi
-            else
-            SCHEME="CollectionExtensions-watchOS"
-            fi
-            echo "set -o pipefail; export PATH='swift-latest:$PATH'; WORKSPACE='$WORKSPACE'; SCHEME='$SCHEME'" > setup.sh
-        - name: Build (watchOS Release)
-          run: |
-            source "setup.sh"
-            echo "Building workspace $WORKSPACE scheme $SCHEME."
-            xcodebuild clean build -workspace "$WORKSPACE" -scheme "$SCHEME" -destination "name=Apple Watch Series 5 - 44mm" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ENABLE_TESTABILITY=YES | tee logs/xcodebuild-watchOS-build-release.log | xcpretty
-        - name: Upload Logs
-          uses: actions/upload-artifact@v1
-          if: always()
-          with:
-            name: logs
-            path: logs
-
-
     xcode-swift-56:
         name: iOS/tvOS/watchOS (Swift 5.6, Xcode 13.2.1)
         env:
@@ -549,7 +275,7 @@ jobs:
           run: mkdir logs
         - name: Install Toolchain
           run: |
-            wget --quiet https://swift.org/builds/swift-5.6.1-release/xcode/swift-5.6.1-RELEASE/swift-5.6.1-RELEASE-osx.pkg
+            wget --quiet https://download.swift.org/swift-5.6.1-release/xcode/swift-5.6.1-RELEASE/swift-5.6.1-RELEASE-osx.pkg
             sudo installer -pkg $downloadYML-osx.pkg -target /
             ln -s "/Library/Developer/Toolchains/$downloadYML.xctoolchain/usr/bin" swift-latest
             ls -d /Applications/Xcode*
